@@ -1,0 +1,1 @@
+export rDiff_PATH=/Users/deng/Research/rna/RiboDiff/scripts/TE.py
