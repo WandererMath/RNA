@@ -4,6 +4,8 @@ FILE_REF_rRNA=../ref/rRNA-only.gtf
 DIR_COUNT_07="../data07/deseq2"
 DIR_COUNT_08="../data08/deseq2"
 
+rDiff_PATH=/Users/deng/Research/rna/RiboDiff/scripts/TE.py
+
 DIR_BOWTIE=$(DIR_DATA)/bowtie
 DIR_COUNT=$(DIR_DATA)/feature
 DIR_DESEQ2=$(DIR_DATA)/deseq2
@@ -11,6 +13,7 @@ DIR_VENN=$(DIR_DATA)/venn
 DIR_NOISE=$(DIR_DATA)/noise
 DIR_rRNA=$(DIR_DATA)/rRNA
 DIR_RDIFF=$(DIR_DATA)/rdiff
+DIR_RIBO_VENN=$(DIR_DATA)/venn_ribo
 
 all: $(DIR_DESEQ2)
 
@@ -59,13 +62,15 @@ rDiff:
 	#conda init bash
 	#conda deactivate
 	#conda activate ribo
-	/Users/deng/.conda/envs/ribo/bin/python $(rDiff_PATH) -e $(DIR_RDIFF)/meta-1.csv -c $(DIR_RDIFF)/matrix-1.csv -o $(DIR_RDIFF)/result-1.tsv
+	/Users/deng/.conda/envs/ribo/bin/python $(rDiff_PATH) -e $(DIR_RDIFF)/meta-1.csv -c $(DIR_RDIFF)/matrix-1.csv -o $(DIR_RDIFF)/result-1.tsv -p 1
 	#conda deactivate
 
 rDiff-C:
 	mkdir -p $(DIR_RDIFF) 
 	python ribo_input.py 1 $(DIR_COUNT_07) $(DIR_COUNT_08) $(DIR_RDIFF)
+	#init.sh
+	/Users/deng/.conda/envs/ribo/bin/python $(rDiff_PATH) -e $(DIR_RDIFF)/meta-2.csv -c $(DIR_RDIFF)/matrix-2.csv -o $(DIR_RDIFF)/result-2.tsv -p 1
 
-	/Users/deng/.conda/envs/ribo/bin/python $(rDiff_PATH) -e $(DIR_RDIFF)/meta-2.csv -c $(DIR_RDIFF)/matrix-2.csv -o $(DIR_RDIFF)/result-2.tsv
-
-
+ribo-venn:
+	mkdir -p $(DIR_RIBO_VENN)
+	python venn.py $(DIR_RDIFF) $(DIR_RIBO_VENN)
