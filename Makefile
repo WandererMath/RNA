@@ -1,6 +1,6 @@
-DIR_DATA=../data08
+DIR_DATA=../data08B
 FILE_REF=../ref/true_genes_only.gtf
-FILE_REF_rRNA=../ref/genomic.gtf
+FILE_REF_ALL=../ref/genomic.gtf
 DIR_COUNT_07="../data07/deseq2"
 DIR_COUNT_08="../data08/deseq2"
 
@@ -11,13 +11,13 @@ DIR_COUNT=$(DIR_DATA)/feature
 DIR_DESEQ2=$(DIR_DATA)/deseq2
 DIR_VENN=$(DIR_DATA)/venn
 DIR_NOISE=$(DIR_DATA)/noise
-DIR_rRNA=$(DIR_DATA)/feature_rRNA
+DIR_RNA=$(DIR_DATA)/feature_RNA
 DIR_RDIFF=$(DIR_DATA)/rdiff
 DIR_RIBO_VENN=$(DIR_DATA)/venn_ribo
 
-all: $(DIR_DESEQ2)
+all: count
 
-
+count:$(DIR_COUNT)
 
 $(DIR_COUNT): 2-count.sh $(DIR_BOWTIE)
 	mkdir -p $(DIR_COUNT)
@@ -46,12 +46,12 @@ venn: $(DIR_DESEQ2) 14-venn_padj.py
 	python 14-venn_padj.py $(DIR_DESEQ2) $(DIR_VENN)
 
 
-rRNA: $(DIR_rRNA)
+RNA: $(DIR_RNA)
 
 
-$(DIR_rRNA): ribo-count.sh $(FILE_REF_rRNA) $(DIR_BOWTIE)
-	mkdir -p $(DIR_rRNA)
-	./ribo-count.sh $(FILE_REF_rRNA) $(DIR_BOWTIE) $(DIR_rRNA)
+$(DIR_RNA): ribo-count.sh $(FILE_REF_rRNA) $(DIR_BOWTIE)
+	mkdir -p $(DIR_RNA)
+	./ribo-count.sh $(FILE_REF_ALL) $(DIR_BOWTIE) $(DIR_RNA)
 
 
 rDiff:
