@@ -21,22 +21,6 @@ LOG2FC=-1
 
 
 
-def analysis(path):
-    up=[]
-    down=[]
-    data=pd.read_csv(path)
-    #print(data.head())
-    #print(data["Unnamed: 0"][:5])
-    #print(type(data["log2FoldChange"][2]))
-    for i in range(len(data["Unnamed: 0"])):
-        if data["log2FoldChange"][i]>=threshold and data["padj"][i]<=0.05 :
-            gene=data["Unnamed: 0"][i]
-            up.append(gene)
-        if data["log2FoldChange"][i]<=-threshold and data["padj"][i]<=0.05 :
-            gene=data["Unnamed: 0"][i]
-            down.append(gene)
-    return up, down
-
 
 def analysis2(path):
     up=[]
@@ -50,7 +34,7 @@ def analysis2(path):
             l2fc=float(line[LOG2FC])
             if padj<=p_threshold and l2fc>=threshold:
                 up.append(id)
-            if padj<=p_threshold and l2fc<=threshold:
+            if padj<=p_threshold and l2fc<=-threshold:
                 down.append(id) 
     return up, down
 
@@ -87,7 +71,7 @@ def save(genes, path):
             f.write(gene+"\n")
 
 genes=[B_p, B_m, C_p, C_m, set(B_p) & set(C_p), set(B_m) & set(C_m), set(B_p) & set(C_m), set(B_m) &set(C_p)]
-paths=["B_p.txt", "B_m.txt", "C_p.txt", "C_m.txt", "B_p & C_p.txt", "B_m & C_m.txt", "B_p & C_m.txt", "B_m &C_p.txt"]
+paths=["B_p.txt", "B_m.txt", "C_p.txt", "C_m.txt", "BpCp.txt", "BmCm.txt", "BpCm.txt", "BmCp.txt"]
 
 for gene, path in zip(genes, paths):
     save(gene, path)

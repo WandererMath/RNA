@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import pearsonr
-from math import log
 from itertools import combinations 
 import os
 import sys
@@ -29,8 +28,7 @@ print(tasks)
 def main(task):
     i1, i2=task
     path_png=os.path.join(PNG_DIR,samples[i1-1]+"-"+samples[i2-1]+".png")
-    X=[]
-    Y=[]
+
 
     X_ori=[]
     Y_ori=[]
@@ -44,12 +42,12 @@ def main(task):
                 if float(data[i1])==0 or float(data[i2])==0:
                     continue
                     
-                X.append(log(float(data[i1]),10))
-                Y.append(log(float(data[i2]),10))
+                #X.append(log(float(data[i1]),10))
+                #Y.append(log(float(data[i2]),10))
             except:
                 pass
 
-    plt.scatter(X, Y)
+    plt.scatter(X_ori, Y_ori)
     correlation_coefficient, p_value = pearsonr(X_ori, Y_ori)
     plt.title(TITLE+"\nR="+str(correlation_coefficient))
     plt.xlabel(samples[i1-1])
