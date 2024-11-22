@@ -1,4 +1,4 @@
-DIR_DATA=../data08
+DIR_DATA=../data07
 FILE_REF=../ref/true_genes_only.gtf
 FILE_REF_ALL=../ref/genomic.gtf
 FILE_FNA=../ref/GCF_000750555.1_ASM75055v1_genomic.fna
@@ -15,6 +15,7 @@ DIR_NOISE=$(DIR_DATA)/noise
 DIR_RNA=$(DIR_DATA)/feature_RNA
 DIR_RDIFF=$(DIR_DATA)/rdiff
 DIR_RIBO_VENN=$(DIR_DATA)/venn_ribo
+DIR_ASD=$(DIR_DATA)/ASD
 
 DIR_MOTIF=$(DIR_DATA)/motif
 
@@ -118,3 +119,17 @@ TIR:
 
 TIR-fisher:
 	python A2-fisher.py $(DIR_RIBO_VENN) "$(DIR_DATA)/TIR" $(FILE_FNA) $(FILE_REF_ALL) #> $(DIR_DATA)/TIR/t-test.txt
+
+ASD:
+	mkdir -p $(DIR_ASD)
+	python C1-SD.py $(DIR_RIBO_VENN) $(DIR_ASD) $(FILE_FNA) $(FILE_REF_ALL) 
+
+
+ASD-only:
+	mkdir -p $(DIR_ASD)
+	python C2-SD-only.py $(DIR_RIBO_VENN) $(DIR_ASD) $(FILE_FNA) $(FILE_REF_ALL) 
+
+DIR_GO=$(DIR_DATA)/GO
+GO:
+	mkdir -p $(DIR_GO)
+	python D1-go.py $(DIR_RIBO_VENN) $(DIR_GO) $(FILE_REF_ALL) 

@@ -27,7 +27,7 @@ tasks=combinations(samples_index,2)
 print(tasks)
 def main(task):
     i1, i2=task
-    path_png=os.path.join(PNG_DIR,samples[i1-1]+"-"+samples[i2-1]+".png")
+    path_png=os.path.join(PNG_DIR,samples[i1-1]+"-"+samples[i2-1]+".PDF")
 
 
     X_ori=[]
